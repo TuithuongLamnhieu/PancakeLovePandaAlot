@@ -42,30 +42,54 @@ window.addEventListener('scroll', () => {
     const rect = letter.getBoundingClientRect();
     const windowHeight = window.innerHeight;
 
-    // ĐIỂM KÍCH HOẠT:
-    // Trên điện thoại thì kích hoạt sớm hơn một chút để dễ thấy
-    const triggerPoint = windowHeight * 0.9; // 90% màn hình là bắt đầu hiện
-
-    // KHOẢNG CÁCH KÉO:
-    // Thay vì cố định 400px, ta để nó bằng 60% chiều cao màn hình.
-    // Ví dụ: Laptop màn cao 800px -> kéo 480px là hiện hết.
-    // Điện thoại màn cao 600px -> kéo 360px là hiện hết.
-    const fadeDistance = windowHeight * 0.6; 
-
-    let progress = (triggerPoint - rect.top) / fadeDistance;
-
-    if (progress < 0) progress = 0;
-    if (progress > 1) progress = 1;
-
-    // Áp dụng CSS
-    letter.style.opacity = progress;
+    // 1. TÍNH TOÁN HIỆN KHUNG (CONTAINER)
+    const triggerPoint = windowHeight * 0.9; 
+    const fadeDistance = windowHeight * 0.6;
     
-    // Hiệu ứng di chuyển
-    const moveY = 100 - (progress * 100);
-    const scale = 0.9 + (0.1 * progress);
-    
+    let containerProgress = (triggerPoint - rect.top) / fadeDistance;
+
+    // Giới hạn trong khoảng 0 đến 1
+    if (containerProgress < 0) containerProgress = 0;
+    if (containerProgress > 1) containerProgress = 1;
+
+    // Áp dụng cho KHUNG BAO NGOÀI
+    letter.style.opacity = containerProgress;
+    const moveY = 100 - (containerProgress * 100);
+    const scale = 0.9 + (0.1 * containerProgress);
     letter.style.transform = `translateY(${moveY}px) scale(${scale})`;
+
+    // 2. TÍNH TOÁN HIỆU ỨNG CHO TỪNG DÒNG CHỮ (CHILDREN)
+    // Lấy tất cả các thẻ: Tiêu đề (h2), Đoạn văn (p), Chữ ký (.signature)
+    const textElements = letter.querySelectorAll('h2, p, .signature');
+
+    textElements.forEach((el, index) => {
+        // TẠO ĐỘ TRỄ (STAGGER EFFECT)
+        // Mỗi phần tử sẽ bắt đầu hiện trễ hơn phần tử trước nó một chút
+        // index * 0.15 nghĩa là: 
+        // - Dòng 1 (index 0): Hiện ngay khi khung hiện.
+        // - Dòng 2 (index 1): Hiện trễ hơn 15%.
+        // - Dòng 3 (index 2): Hiện trễ hơn 30%...
+        
+        let elementProgress = (containerProgress - (index * 0.15)) * 2; 
+        // Nhân 2 để tốc độ hiện của chữ nhanh hơn tốc độ hiện của khung (cho kịp hiển thị)
+
+        // Giới hạn progress của chữ
+        if (elementProgress < 0) elementProgress = 0;
+        if (elementProgress > 1) elementProgress = 1;
+
+        // Áp dụng CSS cho từng dòng
+        el.style.opacity = elementProgress;
+        
+        // Hiệu ứng chữ trồi lên: Từ 30px về 0px
+        const textMoveY = 30 - (elementProgress * 30);
+        
+        // Thêm scale nhẹ cho chữ để cảm giác "nảy" ra
+        // (Không bắt buộc, nhưng thêm vào sẽ sinh động hơn)
+        const textScale = 0.8 + (0.2 * elementProgress); 
+
+        el.style.transform = `translateY(${textMoveY}px) scale(${textScale})`;
+    });
 });
 
-// Gọi 1 lần để cập nhật ngay khi tải trang
+// Gọi ngay lần đầu
 window.dispatchEvent(new Event('scroll'));

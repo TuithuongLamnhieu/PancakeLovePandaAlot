@@ -49,7 +49,7 @@ body {
     height: 200px;
     perspective: 600px;
     z-index: 10;
-    margin-top: 60px;
+    margin-top: 200px;
     margin-bottom: 120px;
 }
 
@@ -94,14 +94,26 @@ h1 { font-size: 1.8rem; margin-bottom: 10px; text-shadow: 0 0 10px #ff6b81; }
     padding: 40px;
     
     width: 90%;
-    max-width: 600px; /* PC: Rộng tối đa 600px */
+    max-width: 600px;
     z-index: 10;
     margin-top: 20px;
     text-align: justify;
     
-    /* Trạng thái mặc định */
+    /* Trạng thái mặc định của KHUNG */
     opacity: 0;
     transform: translateY(100px) scale(0.9);
+    
+    /* QUAN TRỌNG: Thêm overflow hidden để chữ không bị trồi ra ngoài lúc chạy hiệu ứng */
+    overflow: hidden; 
+}
+
+.letter-content h2, 
+.letter-content p, 
+.signature {
+    opacity: 0;
+    transform: translateY(30px); /* Chữ nằm thấp xuống 30px */
+    transition: none; /* Tắt transition để JS điều khiển mượt theo ngón tay */
+    will-change: opacity, transform; /* Tối ưu hiệu năng cho trình duyệt */
 }
 
 .letter-content h2 {
@@ -118,6 +130,7 @@ h1 { font-size: 1.8rem; margin-bottom: 10px; text-shadow: 0 0 10px #ff6b81; }
     font-size: 1.2rem;
     color: #fff;
     font-family: 'Quicksand', sans-serif;
+    margin-bottom: 15px; /* Tách các đoạn văn ra để hiệu ứng rõ hơn */
 }
 
 .signature {
