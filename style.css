@@ -6,13 +6,20 @@ body {
     background: linear-gradient(to bottom, #1a0b2e, #4a192c);
     min-height: 100vh;
     overflow-y: auto; 
-    overflow-x: hidden; /* Chặn cuộn ngang tuyệt đối */
+    overflow-x: hidden; 
     font-family: "Quicksand", sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 50px;
     color: white;
+    /* Đảm bảo padding không làm vỡ kích thước khung */
+    box-sizing: border-box; 
+}
+
+/* Đặt box-sizing cho tất cả các phần tử để tính toán kích thước chuẩn xác */
+* {
+    box-sizing: border-box;
 }
 
 /* --- HIỆU ỨNG MƯA TIM --- */
@@ -36,20 +43,19 @@ body {
 @keyframes fall { to { transform: translateY(110vh) rotate(45deg); } }
 
 
-/* --- KHỐI LẬP PHƯƠNG (CẤU HÌNH MẶC ĐỊNH CHO LAPTOP/PC) --- */
+/* --- KHỐI LẬP PHƯƠNG --- */
 .scene {
     width: 200px;
     height: 200px;
     perspective: 600px;
     z-index: 10;
-    margin-top: 60px;    /* Khoảng cách đỉnh */
-    margin-bottom: 120px; /* Khoảng cách với đồng hồ */
+    margin-top: 60px;
+    margin-bottom: 120px;
 }
 
 .cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; animation: spin 15s infinite linear; }
 .cube__face { position: absolute; width: 200px; height: 200px; border: 2px solid white; box-shadow: 0 0 20px rgba(255, 105, 180, 0.5); background-size: cover; background-position: center; background-color: rgba(255, 255, 255, 0.9); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; color: #d63384; }
 
-/* Vị trí các mặt khối 200px (Laptop) */
 .cube__face--front { transform: rotateY(0deg) translateZ(100px); }
 .cube__face--right { transform: rotateY(90deg) translateZ(100px); }
 .cube__face--back { transform: rotateY(180deg) translateZ(100px); }
@@ -64,29 +70,31 @@ body {
     text-align: center; 
     z-index: 10; 
     background: rgba(255, 255, 255, 0.1); 
-    padding: 20px 40px; /* Padding rộng trên PC */
+    padding: 20px 40px; 
     border-radius: 15px; 
     backdrop-filter: blur(5px); 
     border: 1px solid rgba(255, 255, 255, 0.2); 
     box-shadow: 0 0 15px rgba(255, 192, 203, 0.3); 
     margin-bottom: 30px; 
+    width: auto; /* Trên PC để tự động theo nội dung */
+    min-width: 300px;
 }
 h1 { font-size: 1.8rem; margin-bottom: 10px; text-shadow: 0 0 10px #ff6b81; }
 #timer { font-size: 1.3rem; font-weight: bold; line-height: 1.6; }
 .highlight { color: #ff9a9e; font-size: 1.6rem; }
 
 
-/* --- BỨC THƯ (SCROLL CONTROL) --- */
+/* --- BỨC THƯ --- */
 .letter-container {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 30px rgba(255, 192, 203, 0.4);
     border-radius: 15px;
-    padding: 40px; /* Padding lớn cho thoáng */
+    padding: 40px;
     
     width: 90%;
-    max-width: 600px; /* Giới hạn chiều rộng trên PC để dễ đọc */
+    max-width: 600px; /* PC: Rộng tối đa 600px */
     z-index: 10;
     margin-top: 20px;
     text-align: justify;
@@ -123,19 +131,18 @@ h1 { font-size: 1.8rem; margin-bottom: 10px; text-shadow: 0 0 10px #ff6b81; }
 
 
 /* ========================================= */
-/* === RESPONSIVE: TÙY BIẾN CHO DI ĐỘNG === */
+/* === RESPONSIVE: CHỈNH SỬA CHO DI ĐỘNG === */
 /* ========================================= */
 @media (max-width: 768px) {
-    /* 1. Thu nhỏ khối lập phương xuống 150px */
+    /* 1. Thu nhỏ khối lập phương */
     .scene { 
         width: 150px; 
         height: 150px; 
         margin-top: 40px; 
-        margin-bottom: 80px; /* Giảm khoảng cách cho đỡ trống màn hình đt */
+        margin-bottom: 80px; 
     }
     .cube__face { width: 150px; height: 150px; }
     
-    /* Tính toán lại vị trí translateZ (150px / 2 = 75px) */
     .cube__face--front { transform: rotateY(0deg) translateZ(75px); }
     .cube__face--right { transform: rotateY(90deg) translateZ(75px); }
     .cube__face--back { transform: rotateY(180deg) translateZ(75px); }
@@ -143,17 +150,22 @@ h1 { font-size: 1.8rem; margin-bottom: 10px; text-shadow: 0 0 10px #ff6b81; }
     .cube__face--top { transform: rotateX(90deg) translateZ(75px); }
     .cube__face--bottom { transform: rotateX(-90deg) translateZ(75px); }
 
-    /* 2. Thu nhỏ chữ trong đồng hồ */
-    .timer-container { padding: 15px 20px; width: 90%; }
+    /* 2. CHỈNH SỬA ĐỒNG HỒ (Tạo khoảng cách an toàn 2 bên) */
+    .timer-container { 
+        padding: 15px 20px; 
+        /* QUAN TRỌNG: 85% để chừa lại 15% khoảng trống chia đều 2 bên */
+        width: 85%; 
+    }
     h1 { font-size: 1.4rem; }
     #timer { font-size: 1rem; }
     .highlight { font-size: 1.3rem; }
 
-    /* 3. Tùy chỉnh bức thư cho màn hình nhỏ */
+    /* 3. CHỈNH SỬA BỨC THƯ (Đồng bộ khoảng cách) */
     .letter-container {
-        padding: 20px; /* Giảm padding */
+        padding: 25px; /* Giảm padding một chút để nội dung có chỗ thở */
         margin-top: 10px;
-        width: 60%; /* Mở rộng ra gần sát mép màn hình */
+        /* QUAN TRỌNG: 85% giúp thư không dính sát mép màn hình */
+        width: 85%; 
     }
     .letter-content h2 { font-size: 1.8rem; }
     .letter-content p { font-size: 1rem; }
