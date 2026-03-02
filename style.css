@@ -1,43 +1,44 @@
+/* ========================================= */
+/* === BIẾN TOÀN CỤC (CỐT LÕI CỦA SỰ LINH ĐỘNG) === */
+/* ========================================= */
+:root {
+    /* Khối 3D tự động co giãn: Nhỏ nhất 130px (điện thoại bé), 
+       Tự giãn theo 45% chiều ngang màn hình (các loại iPhone/Oppo), 
+       Lớn nhất 200px (Laptop) */
+    --cube-size: clamp(130px, 45vw, 200px);
+    
+    /* Tự động tính toán bán kính tâm để đẩy 6 mặt ra tạo thành khối hộp */
+    --tz: calc(var(--cube-size) / 2);
+}
+
 /* --- CÀI ĐẶT CƠ BẢN --- */
 body {
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
     background: #000;
-    background: linear-gradient(to bottom, #1a0b2e, #4a192c);
+    background: linear-gradient(-45deg, #1a0b2e, #4a192c, #2d1b4e);
     min-height: 100vh;
-    overflow-y: auto; 
-    overflow-x: hidden;
+    overflow-y: auto; overflow-x: hidden;
     font-family: "Quicksand", sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 50px;
+    display: flex; flex-direction: column; align-items: center;
+    /* Margin top co giãn theo chiều cao màn hình */
+    padding-top: clamp(30px, 5vh, 50px);
     color: white;
     box-sizing: border-box; 
 }
-
-/* KHÓA CUỘN KHI ĐANG LOADING */
-body.loading-mode {
-    overflow: hidden; /* Không cho kéo xuống xem thư trước */
-}
+* { box-sizing: border-box; }
+body.loading-mode { overflow: hidden; }
 
 /* ========================================= */
-/* === CSS CHO PHẦN INTRO (LOADING) === */
+/* === INTRO CHỜ LOADING === */
 /* ========================================= */
 #intro-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    /* OPTIMIZE: Giảm độ phức tạp gradient để nhẹ máy hơn trên điện thoại */
-    background: linear-gradient(-45deg, #1a0b2e, #4a192c, #2d1b4e); 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: inherit;
     background-size: 200% 200%;
     animation: gradientBG 10s ease infinite;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 1s ease-out;
-    overflow: hidden;
-    will-change: opacity; /* Báo trước cho trình duyệt để tối ưu */
+    z-index: 9999; display: flex; align-items: center; justify-content: center;
+    transition: opacity 1s ease-out; overflow: hidden;
+    will-change: opacity;
 }
 @keyframes gradientBG {
     0% { background-position: 0% 50%; }
@@ -45,18 +46,9 @@ body.loading-mode {
     100% { background-position: 0% 50%; }
 }
 
-/* Container tim nền */
-.intro-hearts-container {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 0;
-}
-
-/* TIM BAY NỀN (TỐI ƯU HIỆU SUẤT) */
+.intro-hearts-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 .intro-heart {
-    position: absolute;
-    bottom: -50px; 
-    font-size: 20px;
-    color: rgba(255, 107, 129, 0.6);
+    position: absolute; bottom: -50px; color: rgba(255, 107, 129, 0.6);
     will-change: transform, opacity;
     animation: introHeartPop 4s linear forwards; 
 }
@@ -68,66 +60,40 @@ body.loading-mode {
 
 .intro-content {
     text-align: center;
-    width: 90%;
-    max-width: 550px;
-    position: relative;
-    z-index: 2;
+    /* Khung intro co giãn từ 85% đến tối đa 550px */
+    width: clamp(280px, 85vw, 550px); 
+    position: relative; z-index: 2;
 }
 
 .intro-glass-panel {
-    background: rgba(255, 255, 255, 0.08); 
-    backdrop-filter: blur(10px); 
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
     border-radius: 25px;
-    padding: 40px 50px;
-    transform: translateZ(0); 
+    /* Padding co giãn để ôm sát khung trên điện thoại, rộng trên PC */
+    padding: clamp(25px, 5vw, 40px) clamp(20px, 6vw, 50px);
+    transform: translateZ(0);
 }
-.gif-container { margin-bottom: 60px; }
 
+.gif-container { margin-bottom: clamp(35px, 8vh, 60px); }
 .my-gif {
-    width: 160px; height: auto;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    /* GIF co giãn từ 110px đến 160px */
+    width: clamp(110px, 35vw, 160px); 
+    height: auto; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     animation: floatGif 3s ease-in-out infinite;
 }
 @keyframes floatGif { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-/* Thanh Loading */
-.loading-track {
-    position: relative;
-    width: 100%;
-    height: 12px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 30px;
-    margin-bottom: 35px;
-    overflow: visible; 
-}
+.loading-track { position: relative; width: 100%; height: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; margin-bottom: 35px; overflow: visible; }
+#progress-bar { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: linear-gradient(90deg, #ff9a9e, #ff6b81); border-radius: 30px; box-shadow: 0 0 10px rgba(255, 107, 129, 0.5); transition: width 0.1s linear; }
 
-#progress-bar {
-    position: absolute; top: 0; left: 0; height: 100%; width: 0%;
-    background: linear-gradient(90deg, #ff9a9e, #ff6b81);
-    border-radius: 30px;
-    box-shadow: 0 0 10px rgba(255, 107, 129, 0.5);
-    transition: width 0.1s linear; 
-}
-
-/* === PANDA FIX: KHÔNG BỊ NHẢY DÒNG & MƯỢT === */
 #panda-runner {
-    position: absolute;
-    top: -60px; 
-    left: 0%;
-    transform: translateX(-50%); 
-    font-size: 42px; 
-    white-space: nowrap; 
-    animation: smoothRun 0.6s ease-in-out infinite;
-    transition: left 0.1s linear; 
-    will-change: left, transform; 
-    z-index: 10;
+    position: absolute; top: -55px; left: 0%; transform: translateX(-50%);
+    /* Size gấu co giãn theo màn hình */
+    font-size: clamp(35px, 10vw, 42px); 
+    white-space: nowrap; animation: smoothRun 0.6s ease-in-out infinite; transition: left 0.1s linear; will-change: left, transform; z-index: 10;
 }
-
 @keyframes smoothRun {
     0%   { transform: translateX(-50%) translateY(0) rotate(0deg); }
     25%  { transform: translateX(-50%) translateY(-12px) rotate(-5deg); }
@@ -137,48 +103,130 @@ body.loading-mode {
 }
 
 .loading-text {
-    font-family: 'Quicksand', sans-serif;
-    color: #fff;
-    font-size: 1.2rem;
-    font-weight: 700;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
-    min-height: 1.5em;
+    /* Chữ loading co giãn tự động */
+    font-size: clamp(0.95rem, 3.5vw, 1.2rem);
+    font-family: 'Quicksand', sans-serif; color: #fff; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.4); min-height: 1.5em;
 }
+
+
+/* ========================================= */
+/* === MAIN SITE (KHỐI 3D, ĐỒNG HỒ, THƯ) === */
+/* ========================================= */
 .heart { position: fixed; top: -10vh; background: #ff6b81; width: 20px; height: 20px; transform: rotate(45deg); animation: fall linear forwards; z-index: 1; opacity: 0.8; }
 .heart::before, .heart::after { content: ""; position: absolute; width: 100%; height: 100%; background: inherit; border-radius: 50%; }
 .heart::before { top: -50%; left: 0; } .heart::after { left: -50%; top: 0; }
 @keyframes fall { to { transform: translateY(110vh) rotate(45deg); } }
-.scene { width: 200px; height: 200px; perspective: 600px; z-index: 10; margin-top: 60px; margin-bottom: 120px; }
-.cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; animation: spin 15s infinite linear; }
-.cube__face { position: absolute; width: 200px; height: 200px; border: 2px solid white; box-shadow: 0 0 20px rgba(255, 105, 180, 0.5); background-size: cover; background-position: center; background-color: rgba(255, 255, 255, 0.9); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; color: #d63384; }
-.cube__face--front { transform: rotateY(0deg) translateZ(100px); }
-.cube__face--right { transform: rotateY(90deg) translateZ(100px); }
-.cube__face--back { transform: rotateY(180deg) translateZ(100px); }
-.cube__face--left { transform: rotateY(-90deg) translateZ(100px); }
-.cube__face--top { transform: rotateX(90deg) translateZ(100px); }
-.cube__face--bottom { transform: rotateX(-90deg) translateZ(100px); }
-@keyframes spin { 0% { transform: rotateX(0deg) rotateY(0deg); } 100% { transform: rotateX(360deg) rotateY(360deg); } }
-.timer-container { text-align: center; z-index: 10; background: rgba(255, 255, 255, 0.1); padding: 20px 40px; border-radius: 15px; backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 0 15px rgba(255, 192, 203, 0.3); margin-bottom: 30px; width: auto; min-width: 300px; }
-h1 { font-size: 1.8rem; margin-bottom: 10px; text-shadow: 0 0 10px #ff6b81; }
-#timer { font-size: 1.3rem; font-weight: bold; line-height: 1.6; }
-.highlight { color: #ff9a9e; font-size: 1.6rem; }
 
-.letter-container { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 0 30px rgba(255, 192, 203, 0.4); border-radius: 15px; padding: 40px; width: 90%; max-width: 600px; z-index: 10; margin-top: 20px; text-align: justify; opacity: 0; transform: translateY(100px) scale(0.9); overflow: hidden;
-    will-change: opacity, transform; 
-    transform-style: preserve-3d;    
-    backface-visibility: hidden;
- }
-.letter-content h2, .letter-content p, .signature { opacity: 0; transform: translateY(30px); transition: none; will-change: opacity, transform; }
-.letter-content h2 { font-family: 'Dancing Script', cursive; color: #ff9a9e; text-align: center; font-size: 2.5rem; margin-top: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-.letter-content p { line-height: 1.8; font-size: 1.2rem; color: #fff; font-family: 'Quicksand', sans-serif; margin-bottom: 15px; }
-.signature { text-align: right; font-weight: bold; color: #ff9a9e; font-family: 'Dancing Script', cursive; font-size: 1.8rem; margin-top: 30px; }
+/* KHỐI 3D TỰ FIT SIZE (Không cần media query nữa) */
+.scene {
+    width: var(--cube-size); height: var(--cube-size);
+    perspective: 600px; z-index: 10;
+    /* Khoảng cách thở co giãn theo chiều cao màn hình */
+    margin-top: clamp(30px, 8vh, 60px); 
+    margin-bottom: clamp(70px, 15vh, 120px); 
+}
+.cube { 
+    width: 100%; 
+    height: 100%; 
+    position: relative; 
+    transform-style: preserve-3d; 
+    animation: showcaseSpin 20s infinite ease-in-out; 
+}
 
-@media (max-width: 768px) {
-    .scene { width: 150px; height: 150px; margin-top: 40px; margin-bottom: 80px; }
-    .cube__face { width: 150px; height: 150px; }
-    .cube__face--front { transform: rotateY(0deg) translateZ(75px); } .cube__face--right { transform: rotateY(90deg) translateZ(75px); } .cube__face--back { transform: rotateY(180deg) translateZ(75px); } .cube__face--left { transform: rotateY(-90deg) translateZ(75px); } .cube__face--top { transform: rotateX(90deg) translateZ(75px); } .cube__face--bottom { transform: rotateX(-90deg) translateZ(75px); }
-    .timer-container { padding: 15px 20px; width: 85%; }
-    h1 { font-size: 1.4rem; } #timer { font-size: 1rem; } .highlight { font-size: 1.3rem; }
-    .letter-container { padding: 25px; margin-top: 10px; width: 85%; }
-    .letter-content h2 { font-size: 1.8rem; } .letter-content p { font-size: 1rem; } .signature { font-size: 1.4rem; }
+/* Các mặt được đẩy ra hoàn toàn tự động bằng biến --tz (Giữ nguyên) */
+.cube__face {
+    position: absolute; 
+    width: var(--cube-size); height: var(--cube-size); 
+    border: 2px solid white; 
+    background-size: cover; background-position: center; background-color: rgba(255, 255, 255, 0.9); 
+    display: flex; align-items: center; justify-content: center; font-weight: bold; color: #d63384; 
+    
+    /* === MỚI: Thêm hiệu ứng nhịp đập ánh sáng === */
+    animation: breathGlow 3s infinite alternate ease-in-out;
+}
+
+@keyframes breathGlow {
+    0% {
+        /* Ánh sáng mờ, thu lại */
+        box-shadow: 0 0 15px rgba(255, 105, 180, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.2);
+        filter: brightness(1); /* Độ sáng ảnh bình thường */
+    }
+    100% {
+        /* Ánh sáng rực rỡ, tỏa rộng ra xung quanh */
+        box-shadow: 0 0 40px rgba(255, 105, 180, 1), inset 0 0 20px rgba(255, 255, 255, 0.5);
+        filter: brightness(1.15); /* Làm bức ảnh sáng và trong trẻo hơn một chút */
+    }
+}
+
+.cube__face--front  { transform: rotateY(0deg) translateZ(var(--tz)); }
+.cube__face--right  { transform: rotateY(90deg) translateZ(var(--tz)); }
+.cube__face--back   { transform: rotateY(180deg) translateZ(var(--tz)); }
+.cube__face--left   { transform: rotateY(-90deg) translateZ(var(--tz)); }
+.cube__face--top    { transform: rotateX(90deg) translateZ(var(--tz)); }
+.cube__face--bottom { transform: rotateX(-90deg) translateZ(var(--tz)); }
+
+/* === FIX: KỊCH BẢN XOAY KHÔNG BỊ NGƯỢC ẢNH === */
+@keyframes showcaseSpin { 
+    /* Từ 0% đến 45%: Lần lượt xoay ngang khoe 4 mặt xung quanh (Trục Y) */
+    0%   { transform: rotateX(-10deg) rotateY(0deg); }
+    15%  { transform: rotateX(-10deg) rotateY(90deg); }
+    30%  { transform: rotateX(-10deg) rotateY(180deg); }
+    45%  { transform: rotateX(-10deg) rotateY(270deg); }
+    
+    /* 60%: Kết thúc vòng xoay ngang, ngửa lên để khoe mặt Đáy (Bottom) */
+    60%  { transform: rotateX(90deg) rotateY(360deg); }
+    
+    /* 80%: Từ từ cúi xuống để khoe mặt Trên (Top) */
+    80%  { transform: rotateX(-90deg) rotateY(360deg); }
+    
+    /* 100%: Quay về mặt Front ban đầu để lặp lại vòng lặp mượt mà */
+    100% { transform: rotateX(-10deg) rotateY(360deg); }
+}
+
+/* ĐỒNG HỒ TỰ CO GIÃN CHỮ */
+.timer-container { 
+    text-align: center; z-index: 10; background: rgba(255, 255, 255, 0.1); 
+    border-radius: 15px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 0 15px rgba(255, 192, 203, 0.3);
+    margin-bottom: clamp(20px, 5vh, 40px);
+    
+    /* Box co giãn: Nhỏ nhất 280px, tự fit 85% trên phone, lớn nhất 600px trên PC */
+    width: clamp(280px, 85vw, 600px); 
+    padding: clamp(15px, 4vw, 25px) clamp(10px, 3vw, 40px);
+}
+h1 { 
+    font-size: clamp(1.3rem, 5vw, 1.8rem); /* Chữ tự nhỏ lại nếu màn bé */
+    margin-bottom: 10px; text-shadow: 0 0 10px #ff6b81; 
+}
+#timer { font-size: clamp(0.95rem, 3.5vw, 1.3rem); font-weight: bold; line-height: 1.6; }
+.highlight { color: #ff9a9e; font-size: clamp(1.2rem, 4.5vw, 1.6rem); }
+
+
+/* BỨC THƯ (SCROLL ĐÃ FIX MƯỢT) */
+.letter-container {
+    background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 0 30px rgba(255, 192, 203, 0.4); border-radius: 15px; 
+    
+    width: clamp(280px, 85vw, 600px);
+    padding: clamp(20px, 5vw, 40px);
+    
+    z-index: 10; text-align: justify;
+    opacity: 0; transform: translateY(100px) scale(0.9); overflow: hidden;
+    will-change: opacity, transform; transform-style: preserve-3d; backface-visibility: hidden;
+}
+
+.letter-content h2, .letter-content p, .signature {
+    opacity: 0; transform: translateY(30px); transition: none; will-change: opacity, transform;
+}
+.letter-content h2 { 
+    font-family: 'Dancing Script', cursive; color: #ff9a9e; text-align: center; 
+    font-size: clamp(1.8rem, 7vw, 2.5rem); 
+    margin-top: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3); 
+}
+.letter-content p { 
+    line-height: 1.8; color: #fff; font-family: 'Quicksand', sans-serif; margin-bottom: 15px; 
+    font-size: clamp(1rem, 3.8vw, 1.2rem);
+}
+.signature { 
+    text-align: right; font-weight: bold; color: #ff9a9e; font-family: 'Dancing Script', cursive; 
+    font-size: clamp(1.5rem, 6vw, 1.8rem); 
+    margin-top: clamp(20px, 5vh, 30px); 
 }

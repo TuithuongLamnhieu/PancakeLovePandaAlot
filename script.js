@@ -44,9 +44,9 @@ const loadingInterval = setInterval(() => {
     pandaRunner.style.left = percentage + '%';
     
     // Đổi chữ
-    if(percentage < 30) { loadingText.innerText = `Đang gói ghém tình yêu... ${percentage}%`; } 
-    else if (percentage < 70) { loadingText.innerText = `Đang vận chuyển nỗi nhớ... ${percentage}%`; } 
-    else { loadingText.innerText = `Sắp đến nơi rồi nè... ${percentage}%`; }
+    if(percentage < 30) { loadingText.innerText = `Bbi ơi có người gửi thư cho bbi neè... ${percentage}%`; } 
+    else if (percentage < 70) { loadingText.innerText = `Để tui mang qua cho bbi nhaa... ${percentage}%`; } 
+    else { loadingText.innerText = `Sắp đến nơi gòi bbi... ${percentage}%`; }
 
     // KHI ĐẾN 100%
     if (currentStep >= steps) {
@@ -58,7 +58,7 @@ const loadingInterval = setInterval(() => {
         pandaRunner.style.left = '100%';
         pandaRunner.style.animation = 'none'; // Dừng chạy
         
-        loadingText.innerHTML = "Đã đến nơi! Bbi chờ xíu mở quà nha... <br> ❤️❤️❤️";
+        loadingText.innerHTML = "Đã đến nơi! Bbi chờ xíu mở thư nha... <br> ❤️❤️❤️";
         
         // DELAY 3 GIÂY
         setTimeout(() => {
@@ -75,7 +75,7 @@ const loadingInterval = setInterval(() => {
     }
 }, intervalTime);
 
-const yourDate = new Date(2023, 1, 14, 0, 0, 0);
+const yourDate = new Date(2025, 9, 26, 17, 0, 0);
 
 /* --- LOGIC ĐỒNG HỒ (Giữ nguyên) --- */
 function updateTimer() {
