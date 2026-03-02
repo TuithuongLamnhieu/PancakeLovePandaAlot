@@ -54,10 +54,9 @@ body.loading-mode {
 /* TIM BAY NỀN (TỐI ƯU HIỆU SUẤT) */
 .intro-heart {
     position: absolute;
-    bottom: -50px; /* Xuất phát từ dưới màn hình */
+    bottom: -50px; 
     font-size: 20px;
     color: rgba(255, 107, 129, 0.6);
-    /* OPTIMIZE: will-change transform giúp chuyển động mượt mà trên màn 120Hz */
     will-change: transform, opacity;
     animation: introHeartPop 4s linear forwards; 
 }
@@ -76,24 +75,21 @@ body.loading-mode {
 }
 
 .intro-glass-panel {
-    background: rgba(255, 255, 255, 0.08); /* Giảm độ đục chút cho nhẹ mắt */
-    backdrop-filter: blur(10px); /* Giảm blur xuống 10px để đỡ lag trên điện thoại yếu */
+    background: rgba(255, 255, 255, 0.08); 
+    backdrop-filter: blur(10px); 
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
     border-radius: 25px;
     padding: 40px 50px;
-    transform: translateZ(0); /* Kích hoạt GPU layer */
+    transform: translateZ(0); 
 }
-
-/* FIX: Tăng khoảng cách margin-bottom lên 60px để GIF không dính gấu */
 .gif-container { margin-bottom: 60px; }
 
 .my-gif {
     width: 160px; height: auto;
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    /* Animation nhẹ nhàng */
     animation: floatGif 3s ease-in-out infinite;
 }
 @keyframes floatGif { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
@@ -107,7 +103,6 @@ body.loading-mode {
     border: 1px solid rgba(255,255,255,0.2);
     border-radius: 30px;
     margin-bottom: 35px;
-    /* FIX: Quan trọng! visible để gấu hiện ra ngoài */
     overflow: visible; 
 }
 
@@ -116,28 +111,19 @@ body.loading-mode {
     background: linear-gradient(90deg, #ff9a9e, #ff6b81);
     border-radius: 30px;
     box-shadow: 0 0 10px rgba(255, 107, 129, 0.5);
-    /* FIX: Transition linear khớp với tốc độ JS để mượt 120Hz */
     transition: width 0.1s linear; 
 }
 
 /* === PANDA FIX: KHÔNG BỊ NHẢY DÒNG & MƯỢT === */
 #panda-runner {
     position: absolute;
-    top: -60px; /* Cao hơn thanh loading */
+    top: -60px; 
     left: 0%;
-    transform: translateX(-50%); /* Căn giữa */
-    font-size: 42px; /* To hơn xíu cho cute */
-    
-    /* FIX: Quan trọng! Ngăn không cho thư bị xuống dòng khi sát lề phải */
+    transform: translateX(-50%); 
+    font-size: 42px; 
     white-space: nowrap; 
-    
-    /* Animation chạy */
     animation: smoothRun 0.6s ease-in-out infinite;
-    
-    /* FIX: Transition linear để di chuyển mượt mà không bị khựng */
     transition: left 0.1s linear; 
-    
-    /* Optimize */
     will-change: left, transform; 
     z-index: 10;
 }
@@ -158,12 +144,10 @@ body.loading-mode {
     text-shadow: 0 2px 4px rgba(0,0,0,0.4);
     min-height: 1.5em;
 }
-/* ... (GIỮ NGUYÊN CÁC CSS CŨ: Heart, Scene, Timer, Letter...) ... */
 .heart { position: fixed; top: -10vh; background: #ff6b81; width: 20px; height: 20px; transform: rotate(45deg); animation: fall linear forwards; z-index: 1; opacity: 0.8; }
 .heart::before, .heart::after { content: ""; position: absolute; width: 100%; height: 100%; background: inherit; border-radius: 50%; }
 .heart::before { top: -50%; left: 0; } .heart::after { left: -50%; top: 0; }
 @keyframes fall { to { transform: translateY(110vh) rotate(45deg); } }
-
 .scene { width: 200px; height: 200px; perspective: 600px; z-index: 10; margin-top: 60px; margin-bottom: 120px; }
 .cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; animation: spin 15s infinite linear; }
 .cube__face { position: absolute; width: 200px; height: 200px; border: 2px solid white; box-shadow: 0 0 20px rgba(255, 105, 180, 0.5); background-size: cover; background-position: center; background-color: rgba(255, 255, 255, 0.9); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; color: #d63384; }
@@ -174,15 +158,14 @@ body.loading-mode {
 .cube__face--top { transform: rotateX(90deg) translateZ(100px); }
 .cube__face--bottom { transform: rotateX(-90deg) translateZ(100px); }
 @keyframes spin { 0% { transform: rotateX(0deg) rotateY(0deg); } 100% { transform: rotateX(360deg) rotateY(360deg); } }
-
 .timer-container { text-align: center; z-index: 10; background: rgba(255, 255, 255, 0.1); padding: 20px 40px; border-radius: 15px; backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 0 15px rgba(255, 192, 203, 0.3); margin-bottom: 30px; width: auto; min-width: 300px; }
 h1 { font-size: 1.8rem; margin-bottom: 10px; text-shadow: 0 0 10px #ff6b81; }
 #timer { font-size: 1.3rem; font-weight: bold; line-height: 1.6; }
 .highlight { color: #ff9a9e; font-size: 1.6rem; }
 
 .letter-container { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 0 30px rgba(255, 192, 203, 0.4); border-radius: 15px; padding: 40px; width: 90%; max-width: 600px; z-index: 10; margin-top: 20px; text-align: justify; opacity: 0; transform: translateY(100px) scale(0.9); overflow: hidden;
-    will-change: opacity, transform; /* Báo trước cho trình duyệt */
-    transform-style: preserve-3d;    /* Tách lớp 3D riêng biệt */
+    will-change: opacity, transform; 
+    transform-style: preserve-3d;    
     backface-visibility: hidden;
  }
 .letter-content h2, .letter-content p, .signature { opacity: 0; transform: translateY(30px); transition: none; will-change: opacity, transform; }
